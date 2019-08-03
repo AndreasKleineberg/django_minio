@@ -34,8 +34,10 @@ class MinioStorage(Storage):
     def connection(self):
         if not self._connection:
             try:
-                self._connection = Minio(
-                    self.server, self.access_key, self.secret_key, self.secure)
+                self._connection = Minio(self.server,
+                                         access_key=self.access_key,
+                                         secret_key=self.secret_key,
+                                         secure=self.secure)
             except InvalidEndpointError:
                 self._connection = None
         return self._connection
