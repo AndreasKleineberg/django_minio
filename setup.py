@@ -20,17 +20,17 @@ setup(
     author_email='abylov.belek@gmail.com',
     classifiers=[
         'Environment :: Web Environment',
-        'Framework :: Django :: 2.0',
+        'Framework :: Django :: 2.2',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
         'Operating System :: OS Independent',
-        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
     keywords='minio storage files',
     install_requires=[
-        'Django >= 2.0',
-        'minio == 2.2.2',
+        'Django >= 2.2',
+        'minio == 4.0.18',
     ],
     extras_require={
         'dev': [
