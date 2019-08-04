@@ -43,8 +43,8 @@ class MinioStorage(Storage):
                 self._connection = None
         return self._connection
 
-    def _open(self, bucket_name, object_name):
-        return self.connection.get_object(bucket_name, object_name)
+    def _open(self, object_name, mode):
+        return self.connection.get_object(self.bucket, object_name)
 
     def _save(self, name, content):
         pathname, ext = os.path.splitext(name)
