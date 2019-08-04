@@ -1,5 +1,6 @@
 import mimetypes
 import os
+from pathlib import Path
 
 from django.conf import settings
 from django.core.files.storage import Storage
@@ -43,7 +44,7 @@ class MinioStorage(Storage):
         return self._connection
 
     def _open(self, bucket_name, object_name):
-        return self.client.get_object(bucket_name, object_name)
+        return self._connection.get_object(bucket_name, object_name)
 
     def _save(self, name, content):
         pathname, ext = os.path.splitext(name)
@@ -68,6 +69,11 @@ class MinioStorage(Storage):
             except MaxRetryError:
                 pass
         return hashed_name  # TODO: Do not return name if saving was unsuccessful
+
+    def delete(self, name):
+        object_name = Path(name).as_posix()
+        self.connection.remove_object(bucket_name=self.bucket,
+                                      object_name=object_name)
 
     def url(self, name):
         if self.connection:
