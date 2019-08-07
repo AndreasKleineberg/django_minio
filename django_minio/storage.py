@@ -68,7 +68,7 @@ class MinioStorage(Storage):
                 pass
             except MaxRetryError:
                 pass
-        return hashed_name  # TODO: Do not return name if saving was unsuccessful
+        return hashed_name
 
     def delete(self, name):
         object_name = Path(name).as_posix()
@@ -76,15 +76,7 @@ class MinioStorage(Storage):
                                       object_name=object_name)
 
     def url(self, name):
-        if self.connection:
-            try:
-                if self.connection.bucket_exists(self.bucket):
-                    return self.connection.presigned_get_object(self.bucket, name)
-                else:
-                    return 'image_not_found'  # TODO: Find a better way of returning errors
-            except MaxRetryError:
-                return 'image_not_found'
-        return 'could_not_establish_connection'
+        return f'{self.server}/{self.bucket}/{name}'
 
     def exists(self, name):
         try:
