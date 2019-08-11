@@ -33,7 +33,7 @@ class MinioStorage(Storage):
     def connection(self):
         if not self._connection:
             try:
-                self._connection = Minio(self.server,
+                self._connection = Minio(self.SERVER,
                                          access_key=self.ACCESS_KEY,
                                          secret_key=self.SECRET_KEY,
                                          secure=self.SECURE)
