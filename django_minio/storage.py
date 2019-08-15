@@ -45,10 +45,6 @@ class MinioStorage(Storage):
         return self.connection.get_object(self.BUCKET, object_name)
 
     def _save(self, name, content):
-        pathname, ext = os.path.splitext(name)
-        dir_path, _ = os.path.split(pathname)
-        hashed_name = f'{dir_path}/{hash(content)}{ext}'
-
         content_type = (content.content_type
                         if hasattr(content, 'content_type')
                         else mimetypes.guess_type(name)[0])
@@ -56,18 +52,13 @@ class MinioStorage(Storage):
         if self.connection:
             if not self.connection.bucket_exists(self.BUCKET):
                 self.connection.make_bucket(self.BUCKET)
-            try:
-                self.connection.put_object(
-                    self.BUCKET,
-                    hashed_name,
-                    content,
-                    content.size,
-                    content_type=content_type,
-                )
-            except InvalidXMLError:
-                pass
-            except MaxRetryError:
-                pass
+            self.connection.put_object(
+                self.BUCKET,
+                name,
+                content,
+                content.size,
+                content_type=content_type,
+            )
         return hashed_name
 
     def delete(self, name):
