@@ -59,7 +59,7 @@ class MinioStorage(Storage):
                 content.size,
                 content_type=content_type,
             )
-        return hashed_name
+        return name
 
     def delete(self, name):
         object_name = Path(name).as_posix()
